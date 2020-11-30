@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.devex
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [annotation-api, app-name, config-kubernetes, graalvm, http-client, java, java-application, jib, junit, knative, kubernetes, management, maven, mongo-sync, netty-server, properties, readme, slf4j-simple, spring, spring-web]
