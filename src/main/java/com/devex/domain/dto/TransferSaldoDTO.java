@@ -5,21 +5,21 @@ import io.micronaut.core.annotation.Introspected;
 @Introspected
 public class TransferSaldoDTO {
 
-    private final long fromId;
-    private final long toId;
+    private final String fromId;
+    private final String toId;
     private final double amount;
 
-    public TransferSaldoDTO(long fromId, long toId, double amount) {
+    public TransferSaldoDTO(String fromId, String toId, double amount) {
         this.fromId = fromId;
         this.toId = toId;
         this.amount = amount;
     }
 
-    public long getFromId() {
+    public String getFromId() {
         return fromId;
     }
 
-    public long getToId() {
+    public String getToId() {
         return toId;
     }
 

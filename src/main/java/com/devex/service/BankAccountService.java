@@ -1,55 +1,45 @@
 package com.devex.service;
 
 import com.devex.domain.dto.TransferSaldoDTO;
+import com.devex.domain.Event;
 import com.devex.service.event.BankAccountEventService;
-import com.devex.service.state.BankAccountStateService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class BankAccountService {
 
-    private long id = 1;
-
-    @Inject
-    private BankAccountStateService stateService;
     @Inject
     private BankAccountEventService eventService;
 
 
-    public void substractSaldo(long id, double saldo) {
-        eventService.substractSaldo(id, saldo);
-        stateService.substractSaldo(id, saldo);
+    public void subtractSaldo(String id, double saldo) {
+        eventService.subtractSaldo(id, saldo);
     }
 
-    public void addSaldo(long id, double saldo) {
+    public void addSaldo(String id, double saldo) {
         eventService.addSaldo(id, saldo);
-        stateService.addSaldo(id, saldo);
     }
 
-    public double getSaldoById(long id) {
-        double saldo = stateService.getSaldoById(id);
-        eventService.getSaldoById(id, saldo);
-        return saldo;
+    public Event getLastEvent(String id) {
+        return eventService.getLastEvent(id);
     }
 
-    public long createAccount() {
-        eventService.createAccount(id);
-        stateService.createAccount(id);
-        return id++;
+    public String createAccount() {
+        return eventService.createAccount();
     }
 
-    public void getEvents(){
-        eventService.getEvents();
+    public List<Event> getEvents(String id){
+        return eventService.getEvents(id);
     }
 
     public void transferSaldo(TransferSaldoDTO transferSaldoDTO) {
-        long fromId = transferSaldoDTO.getFromId();
-        long toId = transferSaldoDTO.getToId();
+        String fromId = transferSaldoDTO.getFromId();
+        String toId = transferSaldoDTO.getToId();
         double amount = transferSaldoDTO.getAmount();
-        eventService.transferSaldo(fromId,toId,amount);
+        subtractSaldo(fromId, amount);
         addSaldo(toId, amount);
-        substractSaldo(fromId, amount);
     }
 }

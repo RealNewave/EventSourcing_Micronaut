@@ -1,5 +1,6 @@
 package com.devex.controller;
 
+import com.devex.domain.Event;
 import com.devex.domain.dto.TransferSaldoDTO;
 import com.devex.service.BankAccountService;
 import io.micronaut.http.MediaType;
@@ -9,7 +10,7 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
+import java.util.List;
 
 @Controller("/account")
 public class BankAccountController {
@@ -18,18 +19,18 @@ public class BankAccountController {
     private BankAccountService bankAccountService;
 
     @Post("/create")
-    public long createAccount() {
+    public String createAccount() {
         return bankAccountService.createAccount();
     }
 
-    @Post("/add/{id}/{saldo}")
-    public void addSaldo(long id, double saldo) {
+    @Post("/{id}/add/{saldo}")
+    public void addSaldo( String id,  double saldo) {
         bankAccountService.addSaldo(id, saldo);
     }
 
-    @Post("/substract/{id}/{saldo}")
-    public void substractSaldo(long id, double saldo) {
-        bankAccountService.substractSaldo(id, saldo);
+    @Post("/{id}/subtract/{saldo}")
+    public void subtractSaldo( String id,  double saldo) {
+        bankAccountService.subtractSaldo(id, saldo);
     }
 
     @Post(value = "/transfer", consumes = MediaType.APPLICATION_JSON)
@@ -38,13 +39,13 @@ public class BankAccountController {
     }
 
     @Get("/{id}")
-    public double getSaldo(long id) {
-        return bankAccountService.getSaldoById(id);
+    public Event getLastEvent(String id) {
+        return bankAccountService.getLastEvent(id);
     }
 
-    @Get("/events")
-    public void getEvents(){
-        bankAccountService.getEvents();
+    @Get("/{id}/events")
+    public List<Event> getEvents( String id){
+        return bankAccountService.getEvents(id);
     }
 
 }

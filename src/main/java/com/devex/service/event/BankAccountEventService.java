@@ -1,44 +1,45 @@
 package com.devex.service.event;
 
-import com.devex.domain.event.*;
-import com.devex.repository.BankAccountEventRespository;
+import com.devex.domain.Event;
+import com.devex.domain.EventType;
+import com.devex.repository.BankAccountEventRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.List;
+import java.util.UUID;
 
 @Singleton
 public class BankAccountEventService {
 
     @Inject
-    private BankAccountEventRespository eventRespository;
+    private BankAccountEventRepository eventRespository;
 
 
-    public void substractSaldo(long id, double saldo) {
-        addEvent(new SubstractSaldoFromAccount(id, saldo));
+    public void subtractSaldo(String id, double saldo) {
+        addEvent(new Event(id, saldo, EventType.SUBTRACTSALDO));
     }
 
-    public void addSaldo(long id, double saldo) {
-        addEvent(new AddSaldoToAccount(id,  saldo));
+    public void addSaldo(String id, double saldo) {
+        addEvent(new Event(id, saldo, EventType.ADDSALDO));
     }
 
-    public void getSaldoById(long id, double amount) {
-        addEvent(new GetSaldoFromAccount(id, amount));
+    public Event getLastEvent(String id) {
+        return eventRespository.getLastEvent(id);
     }
 
-    public void createAccount(long id) {
-        addEvent(new CreateBankAccount(id));
+    public String createAccount() {
+        String id = UUID.randomUUID().toString();
+        addEvent(new Event(id, 0.0,  EventType.CREATEACCOUNT));
+        return id;
     }
 
-    public void getEvents() {
-        eventRespository.getEvents();
-    }
-
-    public void transferSaldo(long fromId, long toId, double amount) {
-        addEvent(new TransferSaldoEvent(fromId, toId, amount));
+    public List<Event> getEvents(String id) {
+        return eventRespository.getEvents(id);
     }
 
     private void addEvent(Event event) {
-        eventRespository.events.add(event);
+        eventRespository.addEvent(event);
     }
 
 }
