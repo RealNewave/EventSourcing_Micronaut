@@ -1,16 +1,15 @@
 package com.devex.controller;
 
 import com.devex.domain.Event;
+import com.devex.domain.dto.AccountDTO;
 import com.devex.domain.dto.TransferSaldoDTO;
 import com.devex.service.BankAccountService;
 import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller("/account")
 public class BankAccountController {
@@ -18,24 +17,12 @@ public class BankAccountController {
     @Inject
     private BankAccountService bankAccountService;
 
-    @Post("/create")
-    public String createAccount() {
-        return bankAccountService.createAccount();
-    }
-
-    @Post("/{id}/add/{saldo}")
-    public void addSaldo( String id,  double saldo) {
-        bankAccountService.addSaldo(id, saldo);
-    }
-
-    @Post("/{id}/subtract/{saldo}")
-    public void subtractSaldo( String id,  double saldo) {
-        bankAccountService.subtractSaldo(id, saldo);
-    }
-
-    @Post(value = "/transfer", consumes = MediaType.APPLICATION_JSON)
-    public void transferSaldo(@Body TransferSaldoDTO transferSaldoDTO){
-        bankAccountService.transferSaldo(transferSaldoDTO);
+    @Get
+    public List<AccountDTO> getAllAccounts(){
+        return bankAccountService.getAllAccounts()
+                .stream()
+                .map(AccountDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Get("/{id}")
@@ -47,5 +34,26 @@ public class BankAccountController {
     public List<Event> getEvents( String id){
         return bankAccountService.getEvents(id);
     }
+
+    @Post("/create")
+    public String createAccount() {
+        return bankAccountService.createAccount();
+    }
+
+    @Post("/{id}/deposit/{saldo}")
+    public void depositSaldo( String id, double saldo) {
+        bankAccountService.depositSaldo(id, saldo);
+    }
+
+    @Post("/{id}/withdraw/{saldo}")
+    public void withdrawSaldo( String id,  double saldo) {
+        bankAccountService.withdrawSaldo(id, saldo);
+    }
+
+    @Post(value = "/transfer", consumes = MediaType.APPLICATION_JSON)
+    public void transferSaldo(@Body TransferSaldoDTO transferSaldoDTO){
+        bankAccountService.transferSaldo(transferSaldoDTO);
+    }
+
 
 }

@@ -3,13 +3,11 @@ package com.devex.repository;
 import com.devex.domain.Event;
 import com.mongodb.client.*;
 import com.mongodb.client.model.*;
-import org.bson.BsonString;
 
 import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -33,10 +31,15 @@ public class BankAccountEventRepository {
 
     public Event getLastEvent(String id) {
          return database.getCollection(id, Event.class)
-                 .aggregate(Arrays.asList(
+                 .aggregate(Collections.singletonList(
                          Aggregates.sort(Sorts.descending("objectId"))
                  )).
                  first();
+    }
+
+    public List<String> getAllAccounts() {
+        MongoIterable<String> collections = database.listCollectionNames();
+        return StreamSupport.stream(collections.spliterator(), false).collect(Collectors.toList());
     }
 
 

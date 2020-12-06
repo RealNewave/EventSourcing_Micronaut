@@ -16,12 +16,12 @@ public class BankAccountEventService {
     private BankAccountEventRepository eventRespository;
 
 
-    public void subtractSaldo(String id, double saldo) {
-        addEvent(new Event(id, saldo, EventType.SUBTRACTSALDO));
+    public void withdrawSaldo(String id, double saldo) {
+        addEvent(new Event(id, saldo, EventType.WITHDRAW));
     }
 
-    public void addSaldo(String id, double saldo) {
-        addEvent(new Event(id, saldo, EventType.ADDSALDO));
+    public void depositSaldo(String id, double saldo) {
+        addEvent(new Event(id, saldo, EventType.DEPOSIT));
     }
 
     public Event getLastEvent(String id) {
@@ -42,4 +42,8 @@ public class BankAccountEventService {
         eventRespository.addEvent(event);
     }
 
+    public List<String> getAllAccounts() {
+        //TODO event who asked?
+        return eventRespository.getAllAccounts();
+    }
 }
