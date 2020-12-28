@@ -96,11 +96,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>io.micronaut.spring</groupId>
-      <artifactId>micronaut-spring-web</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <scope>runtime</scope>
@@ -130,10 +125,10 @@
 
   <build>
     <plugins>
-<!--      <plugin>-->
-<!--        <groupId>io.micronaut.build</groupId>-->
-<!--        <artifactId>micronaut-maven-plugin</artifactId>-->
-<!--      </plugin>-->
+      <plugin>
+        <groupId>io.micronaut.build</groupId>
+        <artifactId>micronaut-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -145,16 +140,6 @@
               <groupId>io.micronaut</groupId>
               <artifactId>micronaut-graal</artifactId>
               <version>${micronaut.version}</version>
-            </path>
-            <path>
-              <groupId>io.micronaut.spring</groupId>
-              <artifactId>micronaut-spring-annotation</artifactId>
-              <version>${micronaut.spring.version}</version>
-            </path>
-            <path>
-              <groupId>io.micronaut.spring</groupId>
-              <artifactId>micronaut-spring-web-annotation</artifactId>
-              <version>${micronaut.spring.version}</version>
             </path>
           </annotationProcessorPaths>
           <compilerArgs>

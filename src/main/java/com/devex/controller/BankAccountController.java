@@ -36,8 +36,8 @@ public class BankAccountController {
     }
 
     @Post("/create")
-    public String createAccount() {
-        return bankAccountService.createAccount();
+    public AccountDTO createAccount() {
+        return new AccountDTO(bankAccountService.createAccount());
     }
 
     @Post("/{id}/deposit/{saldo}")

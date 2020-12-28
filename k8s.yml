@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: "eventsourcing"
-          image: "gcr.io/eventsourcing/jib-image"
+          image: "localhost:32000/eventsourcing/jib-image"
           ports:
             - name: http
               containerPort: 8080
